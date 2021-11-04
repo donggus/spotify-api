@@ -1,0 +1,171 @@
+#%RAML 1.0
+title: Challenge Tecnico API
+description: Challenge para candidatos a Backend Developers
+mediaType: application/json
+
+/access:
+  description: Establishes the access token to start making API calls.
+  get:
+    description: By default its settled the expirency at the hour, or when the server is rebooted.
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                  "token": "BQA3JB4x9IgqZ8Vbhs8xKKTnnjIwr74pxCJFoW2cNj_YIgULEMCsVn_Wo59usoCTiWd6aZVr3I8DdUZXxVM"
+              }
+
+/artistTracks:
+  description: Collection of available Artist's songs by ID.
+  post:
+    description: Shows and saves on DB the name and songs of the artist.
+    queryParameters:
+      artistId:
+        description: "Must be an existing artist Spotify ID."
+        required: true
+        type: string
+        example: "41MozSoPIsD1dJM0CLPjZF"
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                "message": "Saved on DB Succesfully",
+                "artist": "BLACKPINK",
+                "songs": [
+                  {
+                      "songName": "How You Like That",
+                      "songId": "4SFknyjLcyTLJFPKD2m96o"
+                  },
+                  {
+                      "songName": "Kill This Love",
+                      "songId": "6hvczQ05jc1yGlp9zhb95V"
+                  },
+                  {
+                      "songName": "BOOMBAYAH",
+                      "songId": "13MF2TYuyfITClL1R2ei6e"
+                  },
+                  {
+                      "songName": "As If It's Your Last",
+                      "songId": "4ZxOuNHhpyOj4gv52MtQpT"
+                  },
+                  {
+                      "songName": "DDU-DU DDU-DU",
+                      "songId": "4lQsB3ERTWSNaAN1IkuNRl"
+                  },
+                  {
+                      "songName": "Lovesick Girls",
+                      "songId": "4Ws314Ylb27BVsvlZOy30C"
+                  },
+                  {
+                      "songName": "PLAYING WITH FIRE",
+                      "songId": "7qmvLmX9tyaTiBAVNI6YEn"
+                  },
+                  {
+                      "songName": "Kiss and Make Up",
+                      "songId": "7jr3iPu4O4bTCVwLMbdU2i"
+                  },
+                  {
+                      "songName": "WHISTLE",
+                      "songId": "6NEoeBLQbOMw92qMeLfI40"
+                  },
+                  {
+                      "songName": "Pretty Savage - JP Ver.",
+                      "songId": "52lsilmqW7xWeJXARzwz3z"
+                  }
+                ]
+              }
+
+/songs:
+  description: Collection of available songs
+  post:
+    description: Get a list of songs based on the artist name.
+    queryParameters:
+      artist:
+        description: "The name of the artist (case insensitive and doesn't need to match the whole name of the artist)"
+        required: true
+        minLength: 3
+        type: string
+        example: "Red Hot Chili"
+        page: "Number of page"
+        limit: "Number of items on page"
+        paginationExample: "/songs?page=3&limit=2"
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                "artist": "RED HOT CHILI PEPPERS",
+                "songs": [
+                    "Otherside",
+                    "Scar Tissue"
+                ],
+                "next": {
+                    "page": 4,
+                    "last_page": 5
+                },
+                "previous": {
+                    "page": 2
+                }
+              }
+  /{songId}:
+    description: Song entity
+    get:
+      description: Get the song with `songId = {songId}`
+      queryParameters:
+        songId:
+          description: "Must be an existing song ID."
+          required: true
+          type: string
+          example: "5HCyWlXZPP0y6Gqq8TgA20"
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "artists": [
+                      {
+                          "external_urls": {
+                              "spotify": "https://open.spotify.com/artist/2tIP7SsRs7vjIcLrU85W8J"
+                          },
+                          "href": "https://api.spotify.com/v1/artists/2tIP7SsRs7vjIcLrU85W8J",
+                          "id": "2tIP7SsRs7vjIcLrU85W8J",
+                          "name": "The Kid LAROI",
+                          "type": "artist",
+                          "uri": "spotify:artist:2tIP7SsRs7vjIcLrU85W8J"
+                      },
+                      {
+                          "external_urls": {
+                              "spotify": "https://open.spotify.com/artist/1uNFoZAHBGtllmzznpCI3s"
+                          },
+                          "href": "https://api.spotify.com/v1/artists/1uNFoZAHBGtllmzznpCI3s",
+                          "id": "1uNFoZAHBGtllmzznpCI3s",
+                          "name": "Justin Bieber",
+                          "type": "artist",
+                          "uri": "spotify:artist:1uNFoZAHBGtllmzznpCI3s"
+                      }
+                  ],
+                  "disc_number": 1,
+                  "duration_ms": 141805,
+                  "explicit": true,
+                  "external_urls": {
+                      "spotify": "https://open.spotify.com/track/5HCyWlXZPP0y6Gqq8TgA20"
+                  },
+                  "href": "https://api.spotify.com/v1/tracks/5HCyWlXZPP0y6Gqq8TgA20",
+                  "id": "5HCyWlXZPP0y6Gqq8TgA20",
+                  "is_local": false,
+                  "name": "STAY (with Justin Bieber)",
+                  "preview_url": "https://p.scdn.co/mp3-preview/dd4d8d66b97b6edcb5358135e72620715e1449f9?cid=20f1ef38ace849b08c9548f7bd476da7",
+                  "track_number": 1,
+                  "type": "track",
+                  "uri": "spotify:track:5HCyWlXZPP0y6Gqq8TgA20"
+                }
+        404:
+          body:
+            application/json:
+              example: |
+                { error: "Couldn't find any song with the id 5HCyWlXZPP0y6Gqq8TgA20" }
