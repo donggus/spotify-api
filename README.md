@@ -1,4 +1,4 @@
-# Fitback Challenge | Overview
+# Spotify API | Overview
 
 Node.js API that consumes Spotify Web API running on the Express framework. Uses PostgreSQL for database storage.
 
